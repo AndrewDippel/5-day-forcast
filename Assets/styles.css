@@ -1,0 +1,27 @@
+* {
+    color: aliceblue;
+}
+
+header {
+    background-color: rgb(122, 122, 231);
+    text-align: center;
+    padding: 20px;
+    margin-left: 15px;
+}
+
+aside {
+    background-color: rgb(0, 140, 255);
+    width: 20%;
+    padding-left: 10px;
+    margin-left: 15px;
+    float: left;
+    text-align: center;
+    height: 600px;
+}
+
+#searchBtn {
+    background-color: rgb(122, 122, 231);
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+}
