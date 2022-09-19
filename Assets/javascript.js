@@ -13,16 +13,7 @@ function fetchCoord(city) {
         .then(function (data) {
             console.log(data);//console logs data from fetch to be used later
             fetchWeather(data.coord.lat, data.coord.lon);
-            function appendText() {
-                console.log(data.name);
-                current['currentName'] = data.name;
-                console.log(data.main.temp);
-                console.log(data.wind.speed);
-                console.log(data.main.humidity);
-                console.log(data.weather.icon);
-                current()
-
-            }
+            renderWeather(data)
         });
 }
 
@@ -32,7 +23,17 @@ function fetchWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key)
     console.log(lat, lon)
 }
-
+function renderWeather(data) {
+    console.log(data.name);
+    console.log(data.main.temp);
+    console.log(data.wind.speed);
+    console.log(data.main.humidity);
+    console.log(data.weather.icon);//"http://openweathermap.org/img/w/" + icon +".png"
+    $("#currentName").append(data.name);
+    $("#temp").append(data.main.temp + " °C");
+    $("#humidity").append(data.main.humidity + " g.m-3");
+    $("#windSpeed").append(data.wind.speed + " Knots");
+}
 var previousCity = $("button")
     .addClass("previousCity")
     .on("click", function (event) {
@@ -44,24 +45,19 @@ var previousCity = $("button")
             localStorage.setItem("lastCityName", newCityName);
 
         }
-        $("#currentName").append.text("<p>data.name</p>");
-        $("#temp").append.text("<p>data.main.temp</p>");
-        $("#humidity").append.text("<p>data.main.humidity</p>");
-        $("#windSpeed").append.text("<p>data.wind.speed</p>");
+
 
     })
 
 //look into local storage for last city name
-
 var previousSearch = localStorage.getItem("lastCityName");
-//if find nothing do nothing
 if (previousSearch) {
     console.log(previousSearch);
     cityName.value = previousSearch;
     fetchCoord(previousSearch);
 }
 //if find city
-//then restore city to text input
+//then add to button on aside
 
 
 
