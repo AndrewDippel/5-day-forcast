@@ -28,11 +28,12 @@ function renderWeather(data) {
     console.log(data.main.temp);
     console.log(data.wind.speed);
     console.log(data.main.humidity);
-    console.log(data.weather.icon);//"http://openweathermap.org/img/w/" + icon +".png"
+    console.log(data.weather[0].icon);
     $("#currentName").append(data.name);
     $("#temp").append(data.main.temp + " °C");
     $("#humidity").append(data.main.humidity + " g.m-3");
     $("#windSpeed").append(data.wind.speed + " Knots");
+    $("#icon").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
 }
 var previousCity = $("button")
     .addClass("previousCity")
