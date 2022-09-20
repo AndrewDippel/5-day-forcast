@@ -20,9 +20,10 @@ function fetchCurrent(city) {
 function fetchWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key)
     console.log(lat, lon)
-
 }
-function fetchForcast(lat, lon) {
+
+//function to fetch the forcast data
+function fetchForcast(data) {
     fetch("api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key)
     console.log(lat, lon)
 }
