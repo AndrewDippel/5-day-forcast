@@ -41,16 +41,24 @@ function fetchForcast(location) {
             return res.json()
         })
         .then(function (forcastData) {
+            for (let i = 0; i < forcastData.list.length; i++) {
+                console.log(i)
+                $('<div class="card eachDay">hello</div>').append("#forcastDisplay");
+                $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.list[0].weather.icon}.png alt="image of weather description">`).appendTo(".eachDay");
+                $(`<h4 class="card-title">${forcastData.list[0].dt_txt}</h4>`).appendTo(".eachDay");
+                $(`<p class="card-text">${forcastData.list[0].main.temp,
+                    forcastData.list[0].main.humidity,
+                    forcastData.list[0].wind.speed
+                    }`)
+                    .appendTo(".eachDay");
+
+            }
             renderForcast(forcastData)
 
         })
         .catch(function (err) {
             console.error(err)
         });
-}
-function renderForcast(Data) {
-    // $("#forcastDisplay").add(`<h4 class="card eachDay width="18rem">hello${forcastData.list[0].main.temp}`)
-
 }
 function renderWeather(data) {
     $("#currentWeather").append(`<dic class="currentDisplay">`);
@@ -66,18 +74,8 @@ function renderWeather(data) {
 
 function renderForcast(forcastData) {
     console.log(forcastData);
-    console.log(forcastData.weather[0].description)
-    for (let i = 0; i < forcastData.length; i++) {
-        $(`<div class="card eachDay"></div>`).appendTo("#forcastDisplay");
-        $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.list.weather.icon}.png alt="image of weather description">`).appendTo(".eachDay");
-        $(`<h4 class="card-title">${forcastData.list.dt_txt}</h4>`).appendTo(".eachDay");
-        $(`<p class="card-text">${forcastData.list.main.temp,
-            forcastData.list.main.humidity,
-            forcastData.list.wind.speed
-            }`)
-            .appendTo(".eachDay");
+    console.log(forcastData.list[0].dt_txt)
 
-    }
 }
 
 var storeSearch = $("button")

@@ -21,8 +21,7 @@ li {
 aside {
     background-color: rgb(0, 140, 255);
     width: 20%;
-    padding-left: 10px;
-    margin-left: 15px;
+    margin-left: 5px;
     border: 10px solid white;
     float: left;
     text-align: center;
@@ -38,6 +37,7 @@ aside {
 
 #search {
     color: black;
+    width: 90%;
 }
 
 .eachDay {
