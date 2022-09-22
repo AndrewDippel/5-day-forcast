@@ -14,7 +14,7 @@ function fetchCurrent(city) {
             fetchWeather(data.coord.lat, data.coord.lon);
             renderWeather(data);
             fetchForcast(data);
-            renderCurrent(data);
+            renderForcast(data);
             renderCurrentAndForcast(data);
             //renderPreviousList();
         });
@@ -25,10 +25,6 @@ function fetchWeather(lat, lon) {
     fetch(coordUrl)
         .then(function (res) {
             return res.json();
-        })
-        .then(function (data) {
-            console.log(data);
-
         })
         .catch(function (err) {
             console.error(err);
@@ -44,16 +40,17 @@ function fetchForcast(location) {
         .then(function (res) {
             return res.json()
         })
-        .then(function (dataFetch) {
-            renderCurrentAndForcast(city, dataFetch)
+        .then(function (forcastData) {
+            renderCurrentAndForcast(forcastData)
+
         })
         .catch(function (err) {
             console.error(err)
         });
 }
-function renderCurrent(Data) {
+function renderForcast(Data) {
     // $("#forcastDisplay").add(`<h4 class="card eachDay width="18rem">hello${forcastData.list[0].main.temp}`)
-    console.log(Data.list[i].main.temp)
+
 }
 function renderWeather(data) {
     $("#currentName").append(data.name);//console.log(data.name);
@@ -64,11 +61,21 @@ function renderWeather(data) {
     $('#imgLabel').append(data.weather[0].description + ": ");//console.log(data.weather[0].description);
 }
 
-function renderCurrentAndForcast(city, info) {
-    console.log(city, info);
+function renderCurrentAndForcast(forcastData) {
+    console.log(forcastData);
+    console.log(forcastData.weather[0].description)
+    for (let i = 0; i < forcastData.length; i++) {
+        $(`<div class="card eachDay"></div>`)
+        $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.weather.icon}.png alt="image of weather description">`)
+        $(`<h4 class="card-title">${forcastData.dt_txt}</h4>`).appendTo(".eachDay");
+        $(`<p class="card-text">${forcastData.main.temp,
+            forcastData.main.humidity,
+            forcastData.wind.speed
+            }`)
 
-
+    }
 }
+
 var storeSearch = $("button")
     .addClass("previousCity")
     .on("click", function (event) {
