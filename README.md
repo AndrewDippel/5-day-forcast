@@ -12,7 +12,7 @@ to view and install this project you can follow either of these links:
 link to my repository: https://github.com/AndrewDippel/5-day-forcast.git
 
 
-deployed website:--------------
+deployed website:https://andrewdippel.github.io/5-day-forcast/
 
 as you can see in the below image you are presented with a input box on the left, simply type the city you are loking for and press the search button, you will then be presented with the current and future 5 day forcast.
 ![image of weather dashboard with input box on left title of weather dashboard and basic info to be filled when search is complete](Assets/Img/Screen%20Shot%202022-09-22%20at%203.58.25%20pm.png)

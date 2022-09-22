@@ -34,7 +34,7 @@ function fetchWeather(lat, lon) {
 function fetchForcast(location) {
     let city = location.name;
     let { lat, lon } = location.coord;
-    let forcastUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&units=metric&appid=${key}`
+    let forcastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&units=metric&appid=${key}`
     fetch(forcastUrl)
         .then(function (res) {
             return res.json()
@@ -43,7 +43,7 @@ function fetchForcast(location) {
             console.log(forcastData)
             for (let i = 0; i < 5; i++) {
                 $("#forcastDisplay").append('<div class="card eachDay"></div>');
-                $(".eachDay").append(`<img class="card-img-top" src="http://openweathermap.org/img/w/${forcastData.list[0].weather[0].icon}.png" id="icon"></img>`);
+                $(".eachDay").append(`<img class="card-img-top" src="https://openweathermap.org/img/w/${forcastData.list[0].weather[0].icon}.png" id="icon"></img>`);
                 //$(".eachDay").append(`<li>${forcastData.list[0].dt_txt}</li>`);
                 $(".eachDay").append(`<div class="card-body"></div>`)
                 $(".eachDay").append(`<p class="card-text" >Temp: ${forcastData.list[0].main.temp}°C</p>`)
@@ -66,7 +66,7 @@ function renderWeather(data) {
     $(".weatherList").append(`<li>Humidity: ${data.main.humidity} %<li>`);//console.log(data.main.humidity);
     $(".weatherList").append(`<li>Wind Speed: ${data.wind.speed} Knots</li>`);//console.log(data.wind.speed);
     $(".currentDisplay").append(`${data.weather[0].description}: `);//console.log(data.weather[0].description);
-    $(".currentDisplay").append(`<img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png" id="icon"></img>`);//console.log(data.weather[0].icon);
+    $(".currentDisplay").append(`<img src="https://openweathermap.org/img/w/${data.weather[0].icon}.png" id="icon"></img>`);//console.log(data.weather[0].icon);
 
 }
 var storeSearch = $("button")
