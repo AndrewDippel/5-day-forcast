@@ -1,8 +1,7 @@
 var key = "d0a6ce034feb50021b0c124b6bd6ea75";//key nneded to call weather api functions
 var cityName = document.querySelector("#search");//input of search
-var previousList = document.querySelector("#previousSearch");//list of previous searches
+var previousList = document.querySelector("#previousSearch");//list of previous searches to be displayed
 var currentDisplay = document.querySelector("#currentWeather");//display for current weather
-var current = [];
 
 //gets basic data of city searched using city name
 function fetchCurrent(city) {
@@ -13,8 +12,9 @@ function fetchCurrent(city) {
         .then(function (data) {
             console.log(data);//console logs data from fetch to be used later
             fetchWeather(data.coord.lat, data.coord.lon);
-            renderWeather(data)
-            fetchForcast(data)
+            renderWeather(data);
+            fetchForcast(data.coord.lat, data.coord.lon);
+            //renderPreviousList();
         });
 }
 //function to get coordinates of city name being inputed 
@@ -28,27 +28,29 @@ function fetchWeather(lat, lon) {
 //     console.log('forcast fetch', forcast)
 // }
 
-function fetchForcast(location) {
-    let { lat } = location;
-    let { lon } = location;
+function fetchForcast(lat, lon) {
     let city = location.name;
-    let forcastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
+    let forcastUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&units=metric&appid=${key}`
 
     fetch(forcastUrl)
         .then(function (res) {
             return res.json()
         })
-        .then(function (data) {
-            renderCurrentAndForcast(city, data)
+        .then(function (dataFetch) {
+            renderCurrentAndForcast(city, dataFetch)
         })
         .catch(function (err) {
             console.error(err)
         });
 }
+function renderCurrent(forcastdata) {
+    $("#forcastDisplay").add(`<h4 class="card eachDay width="18rem">hello${fetchForcast[0][list][0][main.temp]}`)
+    console.log(forcastdata.list[0].dt_txt)
+}
 function renderWeather(data) {
     $("#currentName").append(data.name);//console.log(data.name);
     $("#temp").append(data.main.temp + " °C");//console.log(data.main.temp);
-    $("#humidity").append(data.main.humidity + " g.m³");//console.log(data.main.humidity);
+    $("#humidity").append(data.main.humidity + " %");//console.log(data.main.humidity);
     $("#windSpeed").append(data.wind.speed + " Knots");//console.log(data.wind.speed);
     $("#icon").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");//console.log(data.weather[0].icon);
     $('#imgLabel').append(data.weather[0].description + ": ");//console.log(data.weather[0].description);
@@ -70,7 +72,16 @@ var storeSearch = $("button")
         }
 
 
-    })
+    });
+//render list of previous searches
+// function renderPreviousList() {
+//     $("#previousSearch").empty();
+//     for (let i = 0; i < lastCityName.length; i++) {
+//         let el = $("<li class='cities'>");
+//         el.attr("data", lastCityName[i]);
+//         el.text(citySearched[i]);
+//         $("#previousSearch").append(el);
+//     };
 
 //look into local storage for last city name
 var previousSearch = localStorage.getItem("lastCityName");
@@ -78,9 +89,4 @@ if (previousSearch) {
     console.log(previousSearch);
     cityName.value = previousSearch;
     fetchCurrent(previousSearch);
-}
-
-
-
-
-
+};
