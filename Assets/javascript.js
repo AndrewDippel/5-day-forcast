@@ -15,7 +15,7 @@ function fetchCurrent(city) {
             renderWeather(data);
             fetchForcast(data);
             renderForcast(data);
-            renderCurrentAndForcast(data);
+            renderForcast(data);
             //renderPreviousList();
         });
 }
@@ -41,7 +41,7 @@ function fetchForcast(location) {
             return res.json()
         })
         .then(function (forcastData) {
-            renderCurrentAndForcast(forcastData)
+            renderForcast(forcastData)
 
         })
         .catch(function (err) {
@@ -53,25 +53,29 @@ function renderForcast(Data) {
 
 }
 function renderWeather(data) {
-    $("#currentName").append(data.name);//console.log(data.name);
-    $("#temp").append(data.main.temp + " °C");//console.log(data.main.temp);
-    $("#humidity").append(data.main.humidity + " %");//console.log(data.main.humidity);
-    $("#windSpeed").append(data.wind.speed + " Knots");//console.log(data.wind.speed);
-    $("#icon").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");//console.log(data.weather[0].icon);
-    $('#imgLabel').append(data.weather[0].description + ": ");//console.log(data.weather[0].description);
+    $("#currentWeather").append(`<dic class="currentDisplay">`);
+    $(".currentDisplay").append(`<h3>Current Weather For: ${data.name}</h3>`);
+    $(".currentDisplay").append(`<ul class="weatherList"></ul>`)
+    $(".weatherList").append(`<li>Temp: ${data.main.temp} °C</li>`);//console.log(data.main.temp);
+    $(".weatherList").append(`<li>Humidity: ${data.main.humidity} %<li>`);//console.log(data.main.humidity);
+    $(".weatherList").append(`<li>Wind Speed: ${data.wind.speed} Knots</li>`);//console.log(data.wind.speed);
+    $(".currentDisplay").append(`${data.weather[0].description}: `);//console.log(data.weather[0].description);
+    $(".currentDisplay").append(`<img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png" id="icon"></img>`);//console.log(data.weather[0].icon);
+
 }
 
-function renderCurrentAndForcast(forcastData) {
+function renderForcast(forcastData) {
     console.log(forcastData);
     console.log(forcastData.weather[0].description)
     for (let i = 0; i < forcastData.length; i++) {
-        $(`<div class="card eachDay"></div>`)
-        $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.weather.icon}.png alt="image of weather description">`)
-        $(`<h4 class="card-title">${forcastData.dt_txt}</h4>`).appendTo(".eachDay");
-        $(`<p class="card-text">${forcastData.main.temp,
-            forcastData.main.humidity,
-            forcastData.wind.speed
+        $(`<div class="card eachDay"></div>`).appendTo("#forcastDisplay");
+        $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.list.weather.icon}.png alt="image of weather description">`).appendTo(".eachDay");
+        $(`<h4 class="card-title">${forcastData.list.dt_txt}</h4>`).appendTo(".eachDay");
+        $(`<p class="card-text">${forcastData.list.main.temp,
+            forcastData.list.main.humidity,
+            forcastData.list.wind.speed
             }`)
+            .appendTo(".eachDay");
 
     }
 }
@@ -79,16 +83,14 @@ function renderCurrentAndForcast(forcastData) {
 var storeSearch = $("button")
     .addClass("previousCity")
     .on("click", function (event) {
+        $(".currentDisplay").remove()
         event.preventDefault();
         console.log(cityName);
         var newCityName = cityName.value.trim();
         if (newCityName) {
             fetchCurrent(newCityName);
             localStorage.setItem("lastCityName", newCityName);
-
         }
-
-
     });
 //render list of previous searches
 // function renderPreviousList() {
