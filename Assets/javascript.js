@@ -15,7 +15,6 @@ function fetchCurrent(city) {
             renderWeather(data);
             fetchForcast(data);
             renderForcast(data);
-            renderForcast(data);
             //renderPreviousList();
         });
 }
@@ -41,16 +40,15 @@ function fetchForcast(location) {
             return res.json()
         })
         .then(function (forcastData) {
-            for (let i = 0; i < forcastData.list.length; i++) {
-                console.log(i)
-                $('<div class="card eachDay">hello</div>').append("#forcastDisplay");
-                $(`<img card-img-top src="http://openweathermap.org/img/w/${forcastData.list[0].weather.icon}.png alt="image of weather description">`).appendTo(".eachDay");
-                $(`<h4 class="card-title">${forcastData.list[0].dt_txt}</h4>`).appendTo(".eachDay");
-                $(`<p class="card-text">${forcastData.list[0].main.temp,
-                    forcastData.list[0].main.humidity,
-                    forcastData.list[0].wind.speed
-                    }`)
-                    .appendTo(".eachDay");
+            console.log(forcastData)
+            for (let i = 0; i < 5; i++) {
+                $("#forcastDisplay").append('<div class="card eachDay"></div>');
+                $(".eachDay").append(`<img class="card-img-top" src="http://openweathermap.org/img/w/${forcastData.list[0].weather[0].icon}.png" id="icon"></img>`);
+                //$(".eachDay").append(`<li>${forcastData.list[0].dt_txt}</li>`);
+                $(".eachDay").append(`<div class="card-body"></div>`)
+                $(".eachDay").append(`<p class="card-text" >Temp: ${forcastData.list[0].main.temp}°C</p>`)
+                $(".eachDay").append(`<p class="card-text">Humidity: ${forcastData.list[0].main.humidity} %</p>`);
+                $(".eachDay").append(`<p class="card-text">Wind Speed: ${forcastData.list[0].wind.speed} Knots</p>`);
 
             }
             renderForcast(forcastData)
@@ -71,17 +69,11 @@ function renderWeather(data) {
     $(".currentDisplay").append(`<img src="http://openweathermap.org/img/w/${data.weather[0].icon}.png" id="icon"></img>`);//console.log(data.weather[0].icon);
 
 }
-
-function renderForcast(forcastData) {
-    console.log(forcastData);
-    console.log(forcastData.list[0].dt_txt)
-
-}
-
 var storeSearch = $("button")
     .addClass("previousCity")
     .on("click", function (event) {
         $(".currentDisplay").remove()
+        $(".eachDay").remove()
         event.preventDefault();
         console.log(cityName);
         var newCityName = cityName.value.trim();

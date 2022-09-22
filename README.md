@@ -9,7 +9,7 @@ i learn allot with this project about how to use a server side api and all the d
 to view and install this project you can follow either of these links:
 
 
-link to my repository: -----------------
+link to my repository: https://github.com/AndrewDippel/5-day-forcast.git
 
 
 deployed website:--------------
