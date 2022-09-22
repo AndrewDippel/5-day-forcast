@@ -10,28 +10,36 @@ function fetchCurrent(city) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);//console logs data from fetch to be used later
+            //here we are calling all our functions
             fetchWeather(data.coord.lat, data.coord.lon);
             renderWeather(data);
-            fetchForcast(data.coord.lat, data.coord.lon);
+            fetchForcast(data);
+            renderCurrent(data);
+            renderCurrentAndForcast(data);
             //renderPreviousList();
         });
 }
 //function to get coordinates of city name being inputed 
 function fetchWeather(lat, lon) {
-    fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key)
-    console.log(lat, lon)
+    let coordUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
+    fetch(coordUrl)
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (data) {
+            console.log(data);
+
+        })
+        .catch(function (err) {
+            console.error(err);
+        })
 
 }
-// function fetchForcast(forcast) {
-//     fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + key)
-//     console.log('forcast fetch', forcast)
-// }
-
-function fetchForcast(lat, lon) {
+//this function gets the data for the forcast
+function fetchForcast(location) {
     let city = location.name;
+    let { lat, lon } = location.coord;
     let forcastUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=5&units=metric&appid=${key}`
-
     fetch(forcastUrl)
         .then(function (res) {
             return res.json()
@@ -43,9 +51,9 @@ function fetchForcast(lat, lon) {
             console.error(err)
         });
 }
-function renderCurrent(forcastdata) {
-    $("#forcastDisplay").add(`<h4 class="card eachDay width="18rem">hello${fetchForcast[0][list][0][main.temp]}`)
-    console.log(forcastdata.list[0].dt_txt)
+function renderCurrent(Data) {
+    // $("#forcastDisplay").add(`<h4 class="card eachDay width="18rem">hello${forcastData.list[0].main.temp}`)
+    console.log(Data.list[i].main.temp)
 }
 function renderWeather(data) {
     $("#currentName").append(data.name);//console.log(data.name);
@@ -56,8 +64,10 @@ function renderWeather(data) {
     $('#imgLabel').append(data.weather[0].description + ": ");//console.log(data.weather[0].description);
 }
 
-function renderCurrentAndForcast(city, data) {
-    console.log(city, data);
+function renderCurrentAndForcast(city, info) {
+    console.log(city, info);
+
+
 }
 var storeSearch = $("button")
     .addClass("previousCity")
@@ -86,7 +96,6 @@ var storeSearch = $("button")
 //look into local storage for last city name
 var previousSearch = localStorage.getItem("lastCityName");
 if (previousSearch) {
-    console.log(previousSearch);
     cityName.value = previousSearch;
     fetchCurrent(previousSearch);
 };
