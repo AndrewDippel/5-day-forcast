@@ -14,18 +14,36 @@ function fetchCurrent(city) {
             console.log(data);//console logs data from fetch to be used later
             fetchWeather(data.coord.lat, data.coord.lon);
             renderWeather(data)
+            fetchForcast(data)
         });
 }
 //function to get coordinates of city name being inputed 
 function fetchWeather(lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key)
     console.log(lat, lon)
-}
 
-//function to fetch the forcast data
-function fetchForcast(data) {
-    fetch("api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key)
-    console.log(lat, lon)
+}
+// function fetchForcast(forcast) {
+//     fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + key)
+//     console.log('forcast fetch', forcast)
+// }
+
+function fetchForcast(location) {
+    let { lat } = location;
+    let { lon } = location;
+    let city = location.name;
+    let forcastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
+
+    fetch(forcastUrl)
+        .then(function (res) {
+            return res.json()
+        })
+        .then(function (data) {
+            renderCurrentAndForcast(city, data)
+        })
+        .catch(function (err) {
+            console.error(err)
+        });
 }
 function renderWeather(data) {
     $("#currentName").append(data.name);//console.log(data.name);
@@ -34,6 +52,10 @@ function renderWeather(data) {
     $("#windSpeed").append(data.wind.speed + " Knots");//console.log(data.wind.speed);
     $("#icon").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");//console.log(data.weather[0].icon);
     $('#imgLabel').append(data.weather[0].description + ": ");//console.log(data.weather[0].description);
+}
+
+function renderCurrentAndForcast(city, data) {
+    console.log(city, data);
 }
 var storeSearch = $("button")
     .addClass("previousCity")
@@ -57,8 +79,7 @@ if (previousSearch) {
     cityName.value = previousSearch;
     fetchCurrent(previousSearch);
 }
-//if find city
-//then add to button on aside
+
 
 
 
